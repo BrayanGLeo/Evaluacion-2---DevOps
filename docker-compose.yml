@@ -1,0 +1,83 @@
+version: '3.8'
+
+services:
+  # SERVICIO 1: MOTOR DE BASE DE DATOS (MySQL)
+  database:
+    image: mysql:8.0
+    container_name: innovatech-db
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+    ports:
+      - "3306:3306"
+    volumes:
+      - db-data:/var/lib/mysql
+      - ./init-db:/docker-entrypoint-initdb.d
+    networks:
+      - innovatech-net
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-ppassword"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  # SERVICIO 2: BACKEND MICROSERVICIO DESPACHO
+  backend-despacho:
+    build:
+      context: ./backend-despacho/Springboot-API-REST-DESPACHO
+      dockerfile: Dockerfile
+    container_name: backend-despacho
+    ports:
+      - "8081:8081"
+    environment:
+      - DB_ENDPOINT=database
+      - DB_PORT=3306
+      - DB_NAME=despachos_db
+      - DB_USERNAME=root
+      - DB_PASSWORD=password
+    depends_on:
+      database:
+        condition: service_healthy
+    networks:
+      - innovatech-net
+
+  # SERVICIO 3: BACKEND MICROSERVICIO VENTAS
+  backend-ventas:
+    build:
+      context: ./backend-ventas/Springboot-API-REST
+      dockerfile: Dockerfile
+    container_name: backend-ventas
+    ports:
+      - "8080:8080"
+    environment:
+      - DB_ENDPOINT=database
+      - DB_PORT=3306
+      - DB_NAME=ventas_db
+      - DB_USERNAME=root
+      - DB_PASSWORD=password
+    depends_on:
+      database:
+        condition: service_healthy
+    networks:
+      - innovatech-net
+
+  # SERVICIO 4: FRONTEND DESPACHO (React + Nginx)
+  frontend:
+    build:
+      context: ./frontend-despacho
+      dockerfile: Dockerfile
+    container_name: frontend-despacho
+    ports:
+      - "80:8080"
+    networks:
+      - innovatech-net
+    depends_on:
+      - backend-despacho
+      - backend-ventas
+
+networks:
+  innovatech-net:
+    driver: bridge
+
+volumes:
+  db-data:
+    driver: local
