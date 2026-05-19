@@ -31,13 +31,13 @@ Para levantar la infraestructura completa en un entorno local de manera orquesta
 
 1. Clonar este repositorio:
 
-```bash
-   git clone <url-del-repositorio>
-   cd Evaluacion-2---DevOps
+    ```bash
+    git clone <url-del-repositorio>
+    cd Evaluacion-2---DevOps
 
 2. Construir y levantar todo el stack de contenedores:
 
-```bash
+    ```bash
     docker compose up --build -d
 
 Nota: El archivo docker-compose.yml centralizado se encargará de crear una red aislada (innovatech-net), levantar la base de datos con un Named Volume para persistencia, inyectar el script SQL de creación de esquemas (init-db), y levantar las APIs solo cuando la base de datos reporte un estado saludable (Healthcheck).
@@ -52,13 +52,13 @@ Nota: El archivo docker-compose.yml centralizado se encargará de crear una red 
 
     ° Base de Datos: localhost:3306
 
-Para detener y limpiar el entorno local:
+    Para detener y limpiar el entorno local:
 
-```bash
+    ```bash
     docker compose down
 
 
-🔄 Integración y Despliegue Continuo (CI/CD)
+## 🔄 Integración y Despliegue Continuo (CI/CD)
 Este proyecto implementa flujos de trabajo automatizados mediante GitHub Actions. Existen tres pipelines independientes para el Frontend y los Backends que garantizan la entrega continua.
 
 Flujo de trabajo:
@@ -70,14 +70,14 @@ Build & Push: Se construyen las imágenes Docker optimizadas y se publican autom
 Deploy EC2: Mediante una conexión SSH segura (utilizando llaves criptográficas almacenadas en GitHub Secrets), las instancias EC2 en AWS descargan la versión más reciente de la imagen y reinician los contenedores, garantizando el Zero Downtime y la continuidad operativa.
 
 
-☁️ Infraestructura en AWS (Producción)
+## ☁️ Infraestructura en AWS (Producción)
 El entorno de producción simula una arquitectura empresarial segura:
 
 Instancia Pública (Frontend): Expuesta a internet mediante IP elástica, sirviendo los archivos estáticos a los clientes.
 
 Instancia Privada (Backends & DB): Restringida mediante Security Groups. Solo acepta peticiones provenientes del origen del Frontend, bloqueando cualquier acceso directo desde el exterior para proteger la lógica de negocio y la base de datos persistente.
 
-👥 Autores
+## 👥 Autores
 
 Brayan Godoy
 
