@@ -47,7 +47,7 @@ services:
       dockerfile: Dockerfile
     container_name: backend-ventas
     ports:
-      - "8082:8080"
+      - "8080:8080"
     environment:
       - DB_ENDPOINT=database
       - DB_PORT=3306
