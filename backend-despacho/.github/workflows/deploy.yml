@@ -1,0 +1,42 @@
+name: CI/CD Backend Despachos
+
+on:
+  push:
+    branches:
+      - deploy
+
+jobs:
+  build-push-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout codigo
+        uses: actions/checkout@v4
+
+      - name: Login a Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_HUB_USERNAME }}
+          password: ${{ secrets.DOCKER_HUB_TOKEN }}
+
+      - name: Build y Push imagen Backend
+        uses: docker/build-push-action@v5
+        with:
+          context: ./Springboot-API-REST-DESPACHO
+          file: ./Springboot-API-REST-DESPACHO/Dockerfile
+          target: production
+          push: true
+          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/innovatech-backend-despachos:latest
+
+      - name: Deploy en EC2 Backend
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.EC2_HOST_BACKEND }}
+          username: ec2-user
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            mkdir -p /home/ec2-user/innovatech-backend-despachos
+            cd /home/ec2-user/innovatech-backend-despachos
+            docker pull ${{ secrets.DOCKER_HUB_USERNAME }}/innovatech-backend-despachos:latest
+            docker compose down || true
+            docker compose up -d

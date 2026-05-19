@@ -1,0 +1,54 @@
+services:
+
+  mysql-despachos:
+    image: mysql:8.0
+    container_name: innovatech_mysql_despachos
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${DB_NAME}
+      MYSQL_USER: ${DB_USERNAME}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - despachos_db_data:/var/lib/mysql
+    networks:
+      - despachos_net
+    ports:
+      - "3307:3306"
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p${DB_ROOT_PASSWORD}"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
+  backend-despachos:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: production
+    container_name: innovatech_api_despachos
+    restart: unless-stopped
+    ports:
+      - "8081:8081"
+    environment:
+      DB_ENDPOINT: mysql-despachos
+      DB_PORT: 3306
+      DB_NAME: ${DB_NAME}
+      DB_USERNAME: ${DB_USERNAME}
+      DB_PASSWORD: ${DB_PASSWORD}
+    depends_on:
+      mysql-despachos:
+        condition: service_healthy
+    networks:
+      - despachos_net
+
+volumes:
+  despachos_db_data:
+    driver: local
+    name: innovatech_despachos_db
+
+networks:
+  despachos_net:
+    driver: bridge
+    name: innovatech_despachos_network
