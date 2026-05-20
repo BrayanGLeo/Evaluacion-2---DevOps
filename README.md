@@ -2,7 +2,7 @@
 
 Este repositorio contiene la solución de infraestructura, contenedorización y despliegue automatizado para el proyecto "Innovatech Chile" (Evaluación Parcial N°2 - Introducción a Herramientas DevOps). 
 
-El sistema está compuesto por una arquitectura de microservicios que incluye un Frontend en React y dos servicios Backend en Spring Boot, integrados a una base de datos MySQL, todo orquestado mediante Docker y automatizado con GitHub Actions hacia AWS EC2.
+El sistema está compuesto por una arquitectura de microservicios que incluye un Frontend en React y dos servicios Backend en Spring Boot, integrados a una base de datos MySQL, todo orquestado mediante Docker y automatizado con GitHub Actions hacia AWS EC2..
 
 ## 🏗️ Arquitectura del Sistema
 
