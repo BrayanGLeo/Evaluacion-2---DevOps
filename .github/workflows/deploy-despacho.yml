@@ -1,4 +1,4 @@
-name: CI/CD Pipeline - Frontend a AWS
+name: CI/CD Pipeline - Despacho a AWS
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
 
 jobs:
   deploy:
-    name: Build, Push y Deploy Frontend
+    name: Build, Push y Deploy Despacho
     runs-on: ubuntu-latest
 
     steps:
@@ -26,16 +26,16 @@ jobs:
       id: login-ecr
       uses: aws-actions/amazon-ecr-login@v1
 
-    - name: Build y push a ECR (Frontend)
+    - name: Build y push a ECR (Despacho)
       env:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-        ECR_REPOSITORY: frontend-despacho
+        ECR_REPOSITORY: backend-despacho
         IMAGE_TAG: latest
       run: |
-        cd frontend-despacho
+        cd backend-despacho/Springboot-API-REST-DESPACHO
         docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
         docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
 
-    - name: Actualizar ECS (Frontend)
+    - name: Actualizar ECS (Despacho)
       run: |
-        aws ecs update-service --cluster innovatech-cluster --service service-frontend --force-new-deployment
+        aws ecs update-service --cluster innovatech-cluster --service service-despacho --force-new-deployment
