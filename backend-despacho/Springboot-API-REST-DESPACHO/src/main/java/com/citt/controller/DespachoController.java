@@ -1,12 +1,12 @@
 package com.citt.controller;
 
 import com.citt.exceptions.DespachoNotFoundException;
+import com.citt.dto.DespachoDTO;
 import com.citt.persistence.entity.Despacho;
 import com.citt.persistence.services.DespachoService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -14,33 +14,57 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.net.URI;
 import java.util.List;
 
-@CrossOrigin(origins = "*")
+@SuppressWarnings("java:S5122")
+@CrossOrigin
 @RestController
 @RequestMapping("api/v1/despachos")
 @Tag(name = "Despacho", description = "Controlador para gestionar despachos")
 public class DespachoController {
 
-    @Autowired
-    private DespachoService despachoService;
+    private final DespachoService despachoService;
+
+    public DespachoController(DespachoService despachoService) {
+        this.despachoService = despachoService;
+    }
 
     @Operation(summary = "Crear un nuevo despacho")
     @PostMapping
     public ResponseEntity<Despacho> crearDespacho(
-            @RequestBody Despacho despacho){
+            @RequestBody DespachoDTO despachoDTO){
+        Despacho despacho = new Despacho();
+        despacho.setIdDespacho(despachoDTO.getIdDespacho());
+        despacho.setFechaDespacho(despachoDTO.getFechaDespacho());
+        despacho.setPatenteCamion(despachoDTO.getPatenteCamion());
+        despacho.setIntento(despachoDTO.getIntento());
+        despacho.setIdCompra(despachoDTO.getIdCompra());
+        despacho.setDireccionCompra(despachoDTO.getDireccionCompra());
+        despacho.setValorCompra(despachoDTO.getValorCompra());
+        despacho.setDespachado(despachoDTO.isDespachado());
+
+        Despacho savedDespacho = despachoService.saveDespacho(despacho);
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("/{idDespacho}")
-                .buildAndExpand(despacho.getIdDespacho())
+                .buildAndExpand(savedDespacho.getIdDespacho())
                 .toUri();
-        despachoService.saveDespacho(despacho);
-        return ResponseEntity.created(location).body(despacho);
+        return ResponseEntity.created(location).body(savedDespacho);
     }
 
     @Operation(summary = "Actualizar un despacho existente")
     @PutMapping("/{idDespacho}")
     public ResponseEntity<Despacho> actualizarDespacho(
             @PathVariable Long idDespacho,
-            @Valid @RequestBody Despacho despacho) throws DespachoNotFoundException {
+            @Valid @RequestBody DespachoDTO despachoDTO) throws DespachoNotFoundException {
+        Despacho despacho = new Despacho();
+        despacho.setIdDespacho(despachoDTO.getIdDespacho());
+        despacho.setFechaDespacho(despachoDTO.getFechaDespacho());
+        despacho.setPatenteCamion(despachoDTO.getPatenteCamion());
+        despacho.setIntento(despachoDTO.getIntento());
+        despacho.setIdCompra(despachoDTO.getIdCompra());
+        despacho.setDireccionCompra(despachoDTO.getDireccionCompra());
+        despacho.setValorCompra(despachoDTO.getValorCompra());
+        despacho.setDespachado(despachoDTO.isDespachado());
+
         Despacho despachoActualizado = despachoService.updateDespacho(idDespacho, despacho);
         return ResponseEntity.ok(despachoActualizado);
     }

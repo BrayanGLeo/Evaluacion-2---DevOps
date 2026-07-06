@@ -7,7 +7,7 @@ export const TableCompras = () => {
   const [ventas, setVentas] = useState([]);
 
   const compras = async () => {
-    await axios.get("http://innovatech-alb-1152074516.us-east-1.elb.amazonaws.com:8080/api/v1/ventas", {
+    await axios.get("https://innovatech-alb-1152074516.us-east-1.elb.amazonaws.com:8080/api/v1/ventas", {
       headers:{
         'Content-Type': 'application/json',
         'Accept': 'application/json'
@@ -90,7 +90,8 @@ export const TableCompras = () => {
             venta={ventaSeleccionada}
             onClose={() => {
               //onclose es un prop que pasa funciones al modal con el form abierto, por ende al cerrarse, se ejecutan esas 2 funciones
-              setOpenModal(false), compras();
+              setOpenModal(false);
+              compras();
             }}
           />
         )}

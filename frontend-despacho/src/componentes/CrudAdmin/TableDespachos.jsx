@@ -8,7 +8,7 @@ export const TableDespachos = () => {
 
   const despacho = async () => {
     await axios
-      .get("http://innovatech-alb-1152074516.us-east-1.elb.amazonaws.com:8081/api/v1/despachos", {
+      .get("https://innovatech-alb-1152074516.us-east-1.elb.amazonaws.com:8081/api/v1/despachos", {
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json'
@@ -99,7 +99,8 @@ export const TableDespachos = () => {
           <FormCierreDespacho
             despacho={despachoSeleccionado}
             onClose={() => {
-              setOpenModal(false), despacho();
+              setOpenModal(false);
+              despacho();
             }}
           />
         )}

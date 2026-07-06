@@ -2,7 +2,6 @@ import React from "react";
 
 export const SearchBar = () => {
   return (
-    <>
       <section className="grid grid-cols-1 h-[200px] items-center justify-items-center">
         <div className="flex">
           <form className="flex gap-2">
@@ -18,6 +17,5 @@ export const SearchBar = () => {
           </form>
         </div>
       </section>
-    </>
   );
 };

@@ -16,7 +16,7 @@ export const FormCierreDespacho = ({ despacho, onClose }) => {
 
     try {
       await axios.put(
-        `http://innovatech-alb-1152074516.us-east-1.elb.amazonaws.com:8081/api/v1/despachos/${despacho.idDespacho}`,
+        `https://innovatech-alb-1152074516.us-east-1.elb.amazonaws.com:8081/api/v1/despachos/${despacho.idDespacho}`,
         jsonData,
         {
           headers:{
@@ -38,7 +38,6 @@ export const FormCierreDespacho = ({ despacho, onClose }) => {
   };
 
   return (
-    <>
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="flex flex-col justify-center text-center px-24 text-xl"
@@ -47,8 +46,9 @@ export const FormCierreDespacho = ({ despacho, onClose }) => {
           Editar y cierre de despacho
         </div>
         <div className="mb-5">
-          <label className="block font-bold mb-2">ID despacho</label>
+          <label className="block font-bold mb-2" htmlFor="idDespacho">ID despacho</label>
           <input
+            id="idDespacho"
             disabled={true}
             type="text"
             placeholder="Ingresa fecha de despacho"
@@ -57,8 +57,9 @@ export const FormCierreDespacho = ({ despacho, onClose }) => {
           />
         </div>
         <div className="mb-5">
-          <label className="block font-bold mb-2">Fecha despacho</label>
+          <label className="block font-bold mb-2" htmlFor="fechaDespacho">Fecha despacho</label>
           <input
+            id="fechaDespacho"
             type="date"
             placeholder="Elige patente de camión"
             className="border border-gray-300 rounded-lg block w-full text-slate-400 p-1"
@@ -67,8 +68,9 @@ export const FormCierreDespacho = ({ despacho, onClose }) => {
           />
         </div>
         <div className="mb-5">
-          <label className="block font-bold mb-2">Patente Camión</label>
+          <label className="block font-bold mb-2" htmlFor="patenteCamion">Patente Camión</label>
           <input
+            id="patenteCamion"
             type="text"
             disabled={true}
             value={despacho.patenteCamion}
@@ -76,8 +78,9 @@ export const FormCierreDespacho = ({ despacho, onClose }) => {
           />
         </div>
         <div className="mb-5">
-          <label className="block font-bold mb-2">Intentos de entrega</label>
+          <label className="block font-bold mb-2" htmlFor="intento">Intentos de entrega</label>
           <input
+            id="intento"
             type="number"
             defaultValue={despacho.intento}
             className="border border-gray-300 rounded-lg block w-full  p-1"
@@ -85,8 +88,9 @@ export const FormCierreDespacho = ({ despacho, onClose }) => {
           />
         </div>
         <div className="mb-5">
-          <label className="block font-bold mb-2">Despacho entregado</label>
+          <label className="block font-bold mb-2" htmlFor="despachado">Despacho entregado</label>
           <select
+            id="despachado"
             defaultValue={false}
             className="border border-gray-300 rounded-lg block w-full  p-1"
             {...register("despachado", { required: true })}
@@ -96,8 +100,9 @@ export const FormCierreDespacho = ({ despacho, onClose }) => {
           </select>
         </div>
         <div className="mb-5">
-          <label className="block font-bold mb-2">ID Compra</label>
+          <label className="block font-bold mb-2" htmlFor="idCompra">ID Compra</label>
           <input
+            id="idCompra"
             type="text"
             className="border border-gray-300 rounded-lg block w-full text-slate-400 p-1"
             disabled={true}
@@ -105,8 +110,9 @@ export const FormCierreDespacho = ({ despacho, onClose }) => {
           />
         </div>
         <div className="mb-5">
-          <label className="block font-bold mb-2">Dirección Compra</label>
+          <label className="block font-bold mb-2" htmlFor="direccionCompra">Dirección Compra</label>
           <input
+            id="direccionCompra"
             type="text"
             className="border border-gray-300 rounded-lg block w-full text-slate-400 p-1"
             disabled={true}
@@ -114,8 +120,9 @@ export const FormCierreDespacho = ({ despacho, onClose }) => {
           />
         </div>
         <div className="mb-5">
-          <label className="block font-bold mb-2">Valor Compra</label>
+          <label className="block font-bold mb-2" htmlFor="valorCompra">Valor Compra</label>
           <input
+            id="valorCompra"
             type="text"
             className="border border-gray-300 rounded-lg block w-full text-slate-400 p-1"
             disabled={true}
@@ -130,6 +137,5 @@ export const FormCierreDespacho = ({ despacho, onClose }) => {
           Modificar Despacho
         </button>
       </form>
-    </>
   );
 };

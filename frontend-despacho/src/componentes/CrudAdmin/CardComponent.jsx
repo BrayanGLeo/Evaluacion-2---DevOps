@@ -3,11 +3,9 @@ import React from "react";
 export const CardComponent = ({ title, description, buttonText, onClick }) => {
   return (
     <div className=" p-10 bg-white border border-gray-200 rounded-lg shadow dark:bg-white mb-20 mr-10 h-full overflow-hidden">
-      <a href="#">
         <h5 className="mb-1 text-lg font-bold tracking-tight text-gray-900 dark:text-gray-800">
           {title}
         </h5>
-      </a>
       <p className="mb-5 font-normal text-gray-700 dark:text-gray-400">
         {description}
       </p>

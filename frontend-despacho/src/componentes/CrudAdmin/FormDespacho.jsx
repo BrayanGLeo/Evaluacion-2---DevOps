@@ -25,7 +25,7 @@ export const FormDespacho = ({ venta, onClose }) => {
 
     try {
       await axios.put(
-        `http://innovatech-alb-1152074516.us-east-1.elb.amazonaws.com:8080/api/v1/ventas/${venta.idVenta}`,
+        `https://innovatech-alb-1152074516.us-east-1.elb.amazonaws.com:8080/api/v1/ventas/${venta.idVenta}`,
         jsonDataSales,
         {
           headers:{
@@ -34,7 +34,7 @@ export const FormDespacho = ({ venta, onClose }) => {
       }
         }
       );
-      await axios.post("http://innovatech-alb-1152074516.us-east-1.elb.amazonaws.com:8081/api/v1/despachos", jsonData, {
+      await axios.post("https://innovatech-alb-1152074516.us-east-1.elb.amazonaws.com:8081/api/v1/despachos", jsonData, {
         headers:{
           'Content-Type': 'application/json',
           'Accept': 'application/json'
@@ -52,7 +52,6 @@ export const FormDespacho = ({ venta, onClose }) => {
     onClose();
   };
   return (
-    <>
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="flex flex-col justify-center text-center px-24 text-xl"
@@ -61,8 +60,9 @@ export const FormDespacho = ({ venta, onClose }) => {
           Ingreso de orden de despacho
         </div>
         <div className="mb-5">
-          <label className="block font-bold mb-2">Fecha de despacho</label>
+          <label className="block font-bold mb-2" htmlFor="fechaDespacho">Fecha de despacho</label>
           <input
+            id="fechaDespacho"
             type="date"
             placeholder="Ingresa fecha de despacho"
             className="border border-gray-300 rounded-lg block w-full p-1"
@@ -70,8 +70,9 @@ export const FormDespacho = ({ venta, onClose }) => {
           />
         </div>
         <div className="mb-5">
-          <label className="block font-bold mb-2">Patente de camión</label>
+          <label className="block font-bold mb-2" htmlFor="patenteCamion">Patente de camión</label>
           <input
+            id="patenteCamion"
             type="text"
             placeholder="Elige patente de camión"
             className="border border-gray-300 rounded-lg block w-full p-1"
@@ -79,10 +80,11 @@ export const FormDespacho = ({ venta, onClose }) => {
           />
         </div>
         <div className="mb-5">
-          <label className="block font-bold mb-2">
+          <label className="block font-bold mb-2" htmlFor="idVenta">
             Orden de compra asociado
           </label>
           <input
+            id="idVenta"
             type="number"
             disabled={true}
             value={venta.idVenta}
@@ -90,8 +92,9 @@ export const FormDespacho = ({ venta, onClose }) => {
           />
         </div>
         <div className="mb-5">
-          <label className="block font-bold mb-2">Dirección de entrega</label>
+          <label className="block font-bold mb-2" htmlFor="direccionCompra">Dirección de entrega</label>
           <input
+            id="direccionCompra"
             type="text"
             disabled={true}
             value={venta.direccionCompra}
@@ -99,8 +102,9 @@ export const FormDespacho = ({ venta, onClose }) => {
           />
         </div>
         <div className="mb-5">
-          <label className="block font-bold mb-2">Valor de compra</label>
+          <label className="block font-bold mb-2" htmlFor="valorCompra">Valor de compra</label>
           <input
+            id="valorCompra"
             type="number"
             value={venta.valorCompra}
             className="border border-gray-300 rounded-lg block w-full text-slate-400 p-1"
@@ -115,6 +119,5 @@ export const FormDespacho = ({ venta, onClose }) => {
           Asignar despacho
         </button>
       </form>
-    </>
   );
 };
